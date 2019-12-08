@@ -18,6 +18,17 @@
 		<java.version>1.8</java.version>
 	</properties>
 
+	<developers>
+		<developer>
+			<name>Maksym Gorbunov</name>
+			<email>maksym.gorbunov@iths.se</email>
+		</developer>
+	</developers>
+
+	<organization>
+		<name>maxcoder</name>
+	</organization>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
