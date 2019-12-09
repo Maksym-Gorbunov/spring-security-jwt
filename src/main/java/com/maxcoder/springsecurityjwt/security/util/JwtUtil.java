@@ -1,4 +1,4 @@
-package com.maxcoder.springsecurityjwt.util;
+package com.maxcoder.springsecurityjwt.security.util;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
