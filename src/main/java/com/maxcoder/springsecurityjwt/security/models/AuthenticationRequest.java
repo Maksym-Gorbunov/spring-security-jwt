@@ -26,7 +26,7 @@ public class AuthenticationRequest implements Serializable {
         this.password = password;
     }
 
-    //need default constructor for JSON Parsing
+    //JSON Parsing required
     public AuthenticationRequest(){}
 
     public AuthenticationRequest(String username, String password) {

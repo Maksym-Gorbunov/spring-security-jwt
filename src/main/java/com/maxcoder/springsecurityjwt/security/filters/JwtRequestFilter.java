@@ -21,7 +21,7 @@ import java.io.IOException;
 public class JwtRequestFilter extends OncePerRequestFilter {
 
     @Autowired
-    @Qualifier("MyUserDetailsService")
+    @Qualifier("UserDS")
     private UserDetailsService userDetailsService;
 
     @Autowired

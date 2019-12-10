@@ -1,6 +1,6 @@
 package com.maxcoder.springsecurityjwt;
 
-import com.maxcoder.springsecurityjwt.security.Crypt;
+import com.maxcoder.springsecurityjwt.security.HashEncoder;
 import com.maxcoder.springsecurityjwt.security.models.AuthenticationRequest;
 import com.maxcoder.springsecurityjwt.security.models.AuthenticationResponse;
 import com.maxcoder.springsecurityjwt.security.util.JwtUtil;
@@ -25,7 +25,7 @@ class MyController {
   @Autowired
   private JwtUtil jwtTokenUtil;
   @Autowired
-  @Qualifier("MyUserDetailsService")
+  @Qualifier("UserDS")
   private UserDetailsService userDetailsService;
 
 
@@ -35,58 +35,16 @@ class MyController {
   }
 
 
-//  @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
-//  public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
-//    String username = "";
-//    String password = "";
-//
-//    try {
-//      username = authenticationRequest.getUsername();
-//      password = authenticationRequest.getPassword();
-//
-//      System.out.println("Username: " + username);
-//      System.out.println("Password: " + password);
-//
-//      authenticationManager.authenticate(
-//              new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(), authenticationRequest.getPassword())
-//      );
-//    } catch (BadCredentialsException e) {
-//      System.out.println("111");
-//      throw new Exception("Incorrect username or password", e);
-//    }
-//    final UserDetails userDetails = userDetailsService
-//            .loadUserByUsername(username);
-//
-//
-//    System.out.println("UserDetails: " + userDetails.toString());
-//
-//    System.out.println("UserDetailsName: " + userDetails.getUsername());
-//    System.out.println("UserDetailsPassword: " + userDetails.getPassword());
-//
-//    boolean validUser = Crypt.validatePassword(password, userDetails.getPassword());
-//
-//    System.out.println(validUser);
-//
-//    if (validUser) {
-//      final String jwt = jwtTokenUtil.generateToken(userDetails);
-//      return ResponseEntity.ok(new AuthenticationResponse(jwt));
-//    }
-//    return ResponseEntity.notFound().build();
-//  }
-
-
   @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
   public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
+    final String username = authenticationRequest.getUsername();
+    final String password = authenticationRequest.getPassword();
     try {
-      authenticationManager.authenticate(
-              new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(), authenticationRequest.getPassword())
-      );
+      authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
     } catch (BadCredentialsException e) {
-      System.out.println("111");
       throw new Exception("Incorrect username or password", e);
     }
-    final UserDetails userDetails = userDetailsService
-            .loadUserByUsername(authenticationRequest.getUsername());
+    final UserDetails userDetails = userDetailsService.loadUserByUsername(username);
     final String jwt = jwtTokenUtil.generateToken(userDetails);
     return ResponseEntity.ok(new AuthenticationResponse(jwt));
   }
